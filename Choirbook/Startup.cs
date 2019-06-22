@@ -1,5 +1,6 @@
 ﻿using Choirbook.Models;
 using Choirbook.Models.Interfaces;
+using Choirbook.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,12 @@ namespace Choirbook
             services.AddSingleton<IChoirbookDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<ChoirbookDatabaseSettings>>().Value);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<ChoirbookService>();
+
+            services
+                .AddMvc()
+                .AddJsonOptions(options => options.UseMemberCasing())
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
