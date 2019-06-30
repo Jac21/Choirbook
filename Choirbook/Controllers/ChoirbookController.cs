@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Choirbook.Models;
 using Choirbook.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,15 @@ namespace Choirbook.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Score>> Get() => _choirbookService.Get();
+        public async Task<ActionResult<List<Score>>> Get()
+        {
+            return await _choirbookService.Get();
+        }
 
         [HttpGet("{id:length(24)}", Name = "GetScore")]
-        public ActionResult<Score> Get(string id)
+        public async Task<ActionResult<Score>> Get(string id)
         {
-            var score = _choirbookService.Get(id);
+            var score = await _choirbookService.Get(id);
 
             if (score == null)
             {
@@ -33,17 +37,17 @@ namespace Choirbook.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Score> Create(Score score)
+        public async Task<ActionResult<Score>> Create(Score score)
         {
-            _choirbookService.Create(score);
+            await _choirbookService.Create(score);
 
             return CreatedAtRoute("GetScore", new {id = score.Id}, score);
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Score scoreIn)
+        public async Task<IActionResult> Update(string id, Score scoreIn)
         {
-            var score = _choirbookService.Get(id);
+            var score = await _choirbookService.Get(id);
 
             if (score == null)
             {
@@ -53,22 +57,22 @@ namespace Choirbook.Controllers
             if (string.IsNullOrEmpty(scoreIn.Id))
                 scoreIn.Id = score.Id;
 
-            _choirbookService.Update(id, scoreIn);
+            await _choirbookService.Update(id, scoreIn);
 
             return NoContent();
         }
 
         [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var score = _choirbookService.Get(id);
+            var score = await _choirbookService.Get(id);
 
             if (score == null)
             {
                 return NotFound();
             }
 
-            _choirbookService.Remove(score.Id);
+            await _choirbookService.Remove(score.Id);
 
             return NoContent();
         }

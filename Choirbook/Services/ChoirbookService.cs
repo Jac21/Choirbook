@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using Choirbook.Models;
 using Choirbook.Models.Interfaces;
@@ -17,25 +18,34 @@ namespace Choirbook.Services
             _scores = database.GetCollection<Score>(settings.ChoirbookCollectionName);
         }
 
-        public List<Score> Get() =>
-            _scores.Find(score => true).ToList();
-
-        public Score Get(string id) =>
-            _scores.Find(score => score.Id == id).FirstOrDefault();
-
-        public Score Create(Score score)
+        public async Task<List<Score>> Get()
         {
-            _scores.InsertOne(score);
+            var scoreCursor = await _scores.FindAsync(score => true);
+
+            return await scoreCursor.ToListAsync();
+        }
+
+        public async Task<Score> Get(string id)
+        {
+            var scoreCursor = await _scores.FindAsync(score => score.Id == id);
+
+            return await scoreCursor.FirstOrDefaultAsync();
+        }
+
+        public async Task<Score> Create(Score score)
+        {
+            await _scores.InsertOneAsync(score);
             return score;
         }
 
-        public void Update(string id, Score scoreIn) =>
-            _scores.ReplaceOne(score => score.Id == id, scoreIn);
+        public async Task Update(string id, Score scoreIn)
+        {
+            await _scores.ReplaceOneAsync(score => score.Id == id, scoreIn);
+        }
 
-        public void Remove(Score scoreIn) =>
-            _scores.DeleteOne(score => score.Id == scoreIn.Id);
-
-        public void Remove(string id) =>
-            _scores.DeleteOne(score => score.Id == id);
+        public async Task Remove(string id)
+        {
+            await _scores.DeleteOneAsync(score => score.Id == id);
+        }
     }
 }
