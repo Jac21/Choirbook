@@ -19,7 +19,7 @@ namespace Choirbook.Controllers
         [HttpGet]
         public ActionResult<List<Score>> Get() => _choirbookService.Get();
 
-        [HttpGet("{id}:length(24)", Name = "GetScore")]
+        [HttpGet("{id:length(24)}", Name = "GetScore")]
         public ActionResult<Score> Get(string id)
         {
             var score = _choirbookService.Get(id);
