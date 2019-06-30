@@ -37,7 +37,7 @@ namespace Choirbook.Controllers
         {
             _choirbookService.Create(score);
 
-            return CreatedAtRoute("GetScore", new { id = score.Id.ToString() }, score);
+            return CreatedAtRoute("GetScore", new {id = score.Id}, score);
         }
 
         [HttpPut("{id:length(24)}")]

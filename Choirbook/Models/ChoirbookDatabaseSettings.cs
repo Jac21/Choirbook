@@ -2,7 +2,6 @@
 
 namespace Choirbook.Models
 {
-
     public class ChoirbookDatabaseSettings : IChoirbookDatabaseSettings
     {
         public string ChoirbookCollectionName { get; set; }

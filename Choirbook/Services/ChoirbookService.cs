@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using MongoDB.Driver;
 using Choirbook.Models;
 using Choirbook.Models.Interfaces;
