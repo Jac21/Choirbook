@@ -50,6 +50,9 @@ namespace Choirbook.Controllers
                 return NotFound();
             }
 
+            if (string.IsNullOrEmpty(scoreIn.Id))
+                scoreIn.Id = score.Id;
+
             _choirbookService.Update(id, scoreIn);
 
             return NoContent();
