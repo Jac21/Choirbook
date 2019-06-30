@@ -17,5 +17,7 @@ namespace Choirbook.Models
         public string Composer { get; set; }
 
         public int Revision { get; set; }
+
+        public string Track { get; set; }
     }
 }
